@@ -1,0 +1,59 @@
+[gd_scene load_steps=7 format=3]
+
+[ext_resource type="Script" path="res://scripts/Main.cs" id="1_main"]
+[ext_resource type="PackedScene" path="res://scenes/Orb.tscn" id="2_orb"]
+[ext_resource type="PackedScene" path="res://scenes/Enemy.tscn" id="3_enemy"]
+[ext_resource type="PackedScene" path="res://scenes/Wall.tscn" id="4_wall"]
+[ext_resource type="PackedScene" path="res://scenes/Player.tscn" id="5_player"]
+[ext_resource type="PackedScene" path="res://scenes/Hud.tscn" id="6_hud"]
+
+[node name="Main" type="Node2D"]
+script = ExtResource("1_main")
+OrbScene = ExtResource("2_orb")
+EnemyScene = ExtResource("3_enemy")
+
+[node name="Floor" type="ColorRect" parent="."]
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 940.0
+offset_bottom = 520.0
+color = Color(0.078, 0.114, 0.204, 1)
+
+[node name="Walls" type="Node2D" parent="."]
+
+[node name="Top" parent="Walls" instance=ExtResource("4_wall")]
+position = Vector2(480, 10)
+Size = Vector2(960, 20)
+
+[node name="Bottom" parent="Walls" instance=ExtResource("4_wall")]
+position = Vector2(480, 530)
+Size = Vector2(960, 20)
+
+[node name="Left" parent="Walls" instance=ExtResource("4_wall")]
+position = Vector2(10, 270)
+Size = Vector2(20, 540)
+
+[node name="Right" parent="Walls" instance=ExtResource("4_wall")]
+position = Vector2(950, 270)
+Size = Vector2(20, 540)
+
+[node name="PillarLeft" parent="Walls" instance=ExtResource("4_wall")]
+position = Vector2(290, 210)
+Size = Vector2(36, 150)
+
+[node name="PillarRight" parent="Walls" instance=ExtResource("4_wall")]
+position = Vector2(670, 330)
+Size = Vector2(36, 150)
+
+[node name="BarTop" parent="Walls" instance=ExtResource("4_wall")]
+position = Vector2(480, 130)
+Size = Vector2(170, 24)
+
+[node name="Orbs" type="Node2D" parent="."]
+
+[node name="Enemies" type="Node2D" parent="."]
+
+[node name="Player" parent="." instance=ExtResource("5_player")]
+position = Vector2(480, 300)
+
+[node name="Hud" parent="." instance=ExtResource("6_hud")]

@@ -1,0 +1,34 @@
+name: Tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    env:
+      GODOT_VERSION: 4.3-stable
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Download Godot (.NET)
+        run: |
+          cd "$RUNNER_TEMP"
+          curl -sSL -o godot.zip "https://github.com/godotengine/godot/releases/download/${GODOT_VERSION}/Godot_v${GODOT_VERSION}_mono_linux_x86_64.zip"
+          unzip -q godot.zip
+          echo "GODOT=$RUNNER_TEMP/Godot_v${GODOT_VERSION}_mono_linux_x86_64/Godot_v${GODOT_VERSION}_mono_linux.x86_64" >> "$GITHUB_ENV"
+
+      - name: Build C#
+        run: dotnet build
+
+      - name: Import project
+        run: timeout 300 "$GODOT" --headless --editor --quit --path . || true
+
+      - name: Run tests
+        run: timeout 300 "$GODOT" --headless --path . res://tests/TestRunner.tscn
